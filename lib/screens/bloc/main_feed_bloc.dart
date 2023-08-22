@@ -38,6 +38,15 @@ class MainFeedBloc {
     _movies.clear();
     await _fetchMovies();
   }
+  void search(String searchWord) async {
+    if (searchWord.trim().isEmpty) {
+      _moviesController.sink.add(_movies);
+    } else {
+      final filteredMovies = _movies.where((element) =>
+          element.title.toLowerCase().contains(searchWord.toLowerCase()));
+      _moviesController.sink.add(filteredMovies.toList());
+    }
+  }
 
   void dispose() {
     _genresController.close();

@@ -15,6 +15,7 @@ class MainFeed extends StatefulWidget {
 class _MainFeedState extends State<MainFeed>
     with AutomaticKeepAliveClientMixin<MainFeed> {
   final _bloc = MainFeedBloc();
+  TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
@@ -63,6 +64,27 @@ class _MainFeedState extends State<MainFeed>
                 return const CircularProgressIndicator();
                 }
               },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: SizedBox(
+              height: 60,
+              child: TextField(
+                controller: _searchController,
+                decoration: InputDecoration(
+                  hintText: 'Search...',
+                  suffixIcon: IconButton(
+                    icon: Icon(Icons.search),
+                    onPressed: () {
+                      _bloc.search(_searchController.text);
+                      String searchTerm = _searchController.text;
+                      print('Search Term: $searchTerm');
+                      // Perform your search or other actions here
+                    },
+                  ),
+                ),
+              ),
             ),
           ),
           const SizedBox(
