@@ -1,0 +1,5 @@
+
+class ServerConstant {
+  static const String token = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0NzUyY2QxNzUxN2QyMzkxMzI4NGZmN2MyYTAyYzk4MSIsInN1YiI6IjVlZjQ3ZjFlYWIxYmM3MDAzNTk2M2ViZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.lILP_pILavMPlc7lbSuAkcTdjpcdaUyBhHeeGw2t4kc';
+
+}
