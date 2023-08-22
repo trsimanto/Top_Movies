@@ -1,16 +1,19 @@
-# topmovies
+# Top Movie App
 
-A new Flutter project.
+![App Screenshot](/s1.png)
+![App Screenshot](/s2.png)
+![App Screenshot](/s3.png)
 
-## Getting Started
+**Description**: This Flutter app lets users explore and search for movies by genre, title, and view details like release date and vote average.
 
-This project is a starting point for a Flutter application.
+## Features
+- Browse movies by genre
+- Search for movies by title
+- View movie details (release date, vote average)
 
-A few resources to get you started if this is your first Flutter project:
+## Tech Stack
+- Flutter
+- Dio (for HTTP requests)
+- Bloc
+- Cache
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
