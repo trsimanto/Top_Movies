@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:dio_http_cache_lts/dio_http_cache_lts.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:topmovies/network/server_information/server_constant.dart';
 
@@ -7,15 +8,16 @@ import '../../screens/model/movie.dart';
 import '../server_information/server_info.dart';
 
 
-
 class ApiHelper {
   Future<List<Genre>> fetchGenres() async {
     final dio = Dio();
-    dio.interceptors.add(PrettyDioLogger());
     const baseUrl = ServerInfo.baseUrl;
     const token = ServerConstant.token;
+    const url = '/genre/movie/list?language=en';
+    final dioCacheManager = DioCacheManager(CacheConfig(baseUrl: baseUrl));
+    dio.interceptors.add(dioCacheManager.interceptor);
+    dio.interceptors.add(PrettyDioLogger());
 
-    const url = '$baseUrl/genre/movie/list?language=en';
 
     final headers = {
       'accept': 'application/json',
@@ -24,8 +26,9 @@ class ApiHelper {
 
     try {
       final response = await dio.get(
-        url,
-        options: Options(headers: headers),
+        baseUrl+url,
+        options: buildCacheOptions(Duration(days: 7), forceRefresh: false,
+            options: Options(headers: headers)),
       );
 
       if (response.statusCode == 200) {
@@ -43,15 +46,17 @@ class ApiHelper {
     final List<dynamic> genreList = responseData['genres'];
     return genreList.map<Genre>((json) => Genre.fromJson(json)).toList();
   }
+
   Future<List<Movie>> fetchMovies(int page,
       String selectedGener) async {
+
     final dio = Dio();
-    dio.interceptors.add(PrettyDioLogger());
     const baseUrl = ServerInfo.baseUrl;
     const token = ServerConstant.token;
-
-    final url =
-        '$baseUrl/discover/movie?include_adult=false&include_video=false&language=en-US&page=$page&sort_by=popularity.desc&with_genres=$selectedGener';
+    final url = 'discover/movie?include_adult=false&include_video=false&language=en-US&page=$page&sort_by=popularity.desc&with_genres=$selectedGener';
+    final dioCacheManager = DioCacheManager(CacheConfig(baseUrl: baseUrl));
+    dio.interceptors.add(dioCacheManager.interceptor);
+    dio.interceptors.add(PrettyDioLogger());
 
     final headers = {
       'accept': 'application/json',
@@ -60,8 +65,9 @@ class ApiHelper {
 
     try {
       final response = await dio.get(
-        url,
-        options: Options(headers: headers),
+        baseUrl+url,
+        options: buildCacheOptions(Duration(days: 7), forceRefresh: false,
+            options: Options(headers: headers)),
       );
 
       if (response.statusCode == 200) {
@@ -74,12 +80,11 @@ class ApiHelper {
       throw Exception('Dio error: $error');
     }
   }
+
   List<Movie> parseMovies(Map<String, dynamic> responseData) {
     final List<dynamic> results = responseData['results'];
     return results.map<Movie>((json) => Movie.fromJson(json)).toList();
   }
-
-
 
 
 }
